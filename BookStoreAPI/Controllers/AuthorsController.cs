@@ -32,7 +32,6 @@ namespace BookStoreAPI.Controllers
           {
               return NotFound();
           }
-            
           return Ok(authorsList);
 
         }
