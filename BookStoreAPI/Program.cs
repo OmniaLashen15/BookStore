@@ -1,4 +1,6 @@
+using BookStoreAPI.Repository;
 using BookStoreData;
+using BookStoreDomain;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -15,6 +17,8 @@ builder.Services.AddDbContext<BookStoreContext>(
     opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("BookStoreConnection"))
     .EnableSensitiveDataLogging()
     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+builder.Services.AddScoped<IRepository<Author>, AuthorRepository>();
+builder.Services.AddScoped<IRepository<Book>, BookRepository>();
 
 var app = builder.Build();
 

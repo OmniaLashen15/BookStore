@@ -16,7 +16,7 @@ namespace BookStoreData
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<Book>().Property(b => b.Genre).HasConversion<string>();
             modelBuilder.Entity<Author>().HasData(
                 new Author { AuthorId = 1, FirstName = "Kathy", LastName = "Sierra" , Email = "Kathy.Sierra@gmail.com", AboutTheAuthor= "She is the co-creator of the Head First series of books on technical (primarily computer) topics, along with her partner, Bert Bates. The series, which began with Head First Java in 2003,[4] takes an unorthodox, visually intensive approach to the process of teaching programming. Sierra's books in the series have received three nominations for Product Excellence Jolt Awards, winning in 2005 for Head First Design Patterns, and were recognized on Amazon.com's yearly top 10 list for computer books from 2003 to 2005.[5] In 2005 she coined the phrase 'The Kool - Aid Point' to describe the point at which detractors emerge purely due to the popularity of a topic being promoted by others.", ImageURL= "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Kathy_Sierra_1a.jpg/330px-Kathy_Sierra_1a.jpg" });
 
