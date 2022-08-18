@@ -1,6 +1,7 @@
 ﻿using BookStoreDomain;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;
 using System.Data;
 
 namespace BookStoreAPI.Repository
@@ -46,6 +47,14 @@ namespace BookStoreAPI.Repository
         {
             var sql = "DELETE FROM Books WHERE BookId = @Id";
             var book = db.Query(sql, new { id }).Single();
+            return book;
+        }
+
+        public async Task<Book> Search(string word)
+        {
+            var sql = "SELECT top(1)* FROM Books WHERE CONTAINS (Keywords, @word);";
+            var book = db.Query<Book>(sql, new { word }).FirstOrDefault();
+            
             return book;
         }
     }

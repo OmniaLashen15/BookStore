@@ -50,6 +50,20 @@ namespace BookStoreAPI.Controllers
             return Ok(author);
 
         }
+        // GET: api/Authors/
+        [HttpGet("Author/{name}")]
+        public async Task<ActionResult<Author>> SearchForAuthor(string name)
+        {
+            var author = await _authorRepo.Search(name);
+
+            if (author == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(author);
+
+        }
 
         // PUT: api/Authors/5
         [HttpPut("{id}")]

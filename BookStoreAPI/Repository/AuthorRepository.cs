@@ -53,6 +53,14 @@ namespace BookStoreAPI.Repository
             return author;
             
         }
+
+        public async Task<Author> Search(string word)
+        {
+            var author = await _context.Authors.Where(a => (a.FirstName + " " + a.LastName).ToLower().Contains(word)).FirstOrDefaultAsync();
+            return author;
+            
+        }
+
         private static Author AuthorFromDTO(AuthorDTO authorDTO)
         {
             return new Author
@@ -79,5 +87,7 @@ namespace BookStoreAPI.Repository
                 AboutTheAuthor = author.AboutTheAuthor
             };
         }
+
+
     }
 }

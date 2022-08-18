@@ -7,5 +7,7 @@
         Task<T> Insert(T obj);
         Task<T> Update(T obj);
         Task<T> Delete(int id);
+
+        Task<T> Search(string word);
     }
 }
