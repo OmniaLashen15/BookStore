@@ -4,6 +4,7 @@ using BookStoreData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStoreData.Migrations
 {
     [DbContext(typeof(BookStoreContext))]
-    partial class BookStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20220818084911_addgenrecolumninbooks")]
+    partial class addgenrecolumninbooks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,7 +117,8 @@ namespace BookStoreData.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("BookTitle");
 
                     b.HasKey("BookId");
 
@@ -130,7 +133,7 @@ namespace BookStoreData.Migrations
                             BookId = 1,
                             AuthorId = 1,
                             BasePrice = 0m,
-                            Genre = "Computers",
+                            Genre = "0",
                             ISBN = "0596007124",
                             Keywords = "first",
                             PublishDate = new DateTime(2004, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -141,7 +144,7 @@ namespace BookStoreData.Migrations
                             BookId = 2,
                             AuthorId = 2,
                             BasePrice = 0m,
-                            Genre = "Computers",
+                            Genre = "0",
                             ISBN = "665-545-300-98",
                             Keywords = "software",
                             PublishDate = new DateTime(1994, 10, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -150,9 +153,9 @@ namespace BookStoreData.Migrations
                         new
                         {
                             BookId = 3,
-                            AuthorId = 3,
+                            AuthorId = 1,
                             BasePrice = 0m,
-                            Genre = "Computers",
+                            Genre = "0",
                             ISBN = "978-0-596-52773-0",
                             Keywords = "C#",
                             PublishDate = new DateTime(2007, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -173,7 +176,8 @@ namespace BookStoreData.Migrations
 
             modelBuilder.Entity("BookStoreDomain.Author", b =>
                 {
-                    b.Navigation("Book");
+                    b.Navigation("Book")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

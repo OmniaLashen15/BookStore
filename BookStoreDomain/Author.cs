@@ -9,6 +9,6 @@
         public string Email { get; set; }
         public string AboutTheAuthor { get; set; }
         public string ImageURL { get; set; }
-        public Book Book { get; set; }
+        public Book? Book { get; set; }
     }
 }

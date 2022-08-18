@@ -4,6 +4,7 @@ using BookStoreData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStoreData.Migrations
 {
     [DbContext(typeof(BookStoreContext))]
-    partial class BookStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20220818090444_updatebooksgenre")]
+    partial class updatebooksgenre
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,7 +117,8 @@ namespace BookStoreData.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("BookTitle");
 
                     b.HasKey("BookId");
 
@@ -173,7 +176,8 @@ namespace BookStoreData.Migrations
 
             modelBuilder.Entity("BookStoreDomain.Author", b =>
                 {
-                    b.Navigation("Book");
+                    b.Navigation("Book")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

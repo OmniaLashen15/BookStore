@@ -30,11 +30,11 @@ namespace BookStoreData
 
             var someBooks = new Book[]
             {
-                new Book {BookId=1, ISBN="0596007124",AuthorId=1,Title="Head First Design Patterns",Keywords="first",
+                new Book {BookId=1, ISBN="0596007124",AuthorId=1,Title="Head First Design Patterns",Keywords="first",Genre=BookGenre.Computers,
                 PublishDate=new DateTime(2004,10,1)},
-                new Book {BookId=2, ISBN="665-545-300-98",AuthorId=2,Title="Design Patterns: Elements of Reusable Object-Oriented Software",Keywords="software",
+                new Book {BookId=2, ISBN="665-545-300-98",AuthorId=2,Title="Design Patterns: Elements of Reusable Object-Oriented Software",Keywords="software",Genre=BookGenre.Computers,
                 PublishDate=new DateTime(1994,10,21)},
-                new Book {BookId=3,ISBN="978-0-596-52773-0", AuthorId=1,Title="C# 3.0 Design Patterns",Keywords="C#",
+                new Book {BookId=3,ISBN="978-0-596-52773-0", AuthorId=3,Title="C# 3.0 Design Patterns",Keywords="C#",Genre=BookGenre.Computers,
                 PublishDate=new DateTime(2007,12,10)},
             };
             modelBuilder.Entity<Book>().HasData(someBooks);
