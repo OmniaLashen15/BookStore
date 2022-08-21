@@ -40,12 +40,13 @@ namespace BookStoreAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Author>> GetAuthor(int id)
         {
+            throw new Exception();
             var author = await _authorRepo.GetById(id);
 
-            if (author == null)
-            {
-                return NotFound();
-            }
+            //if (author == null)
+            //{
+            //    return NotFound();
+            //}
 
             return Ok(author);
 
@@ -74,21 +75,21 @@ namespace BookStoreAPI.Controllers
                 return BadRequest();
             }
 
-            try
-            {
+           // try
+            //{
                 var Updatedauthor = await _authorRepo.Update(author);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
                 if (_authorRepo.GetById(id) == null)
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
-            }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
 
             return Ok(author);
         }
