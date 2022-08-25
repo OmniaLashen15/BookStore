@@ -12,25 +12,23 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStoreData.Migrations
 {
     [DbContext(typeof(BookStoreContext))]
-    [Migration("20220816141143_Initial")]
-    partial class Initial
+    [Migration("20220823183039_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("BookStoreDomain.Author", b =>
                 {
-                    b.Property<int>("AuthorId")
+                    b.Property<Guid>("AuthorId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AuthorId"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AboutTheAuthor")
                         .IsRequired()
@@ -57,19 +55,39 @@ namespace BookStoreData.Migrations
                     b.ToTable("Authors");
                 });
 
+            modelBuilder.Entity("BookStoreDomain.AuthorBook", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("Books_Authors");
+                });
+
             modelBuilder.Entity("BookStoreDomain.Book", b =>
                 {
-                    b.Property<int>("BookId")
+                    b.Property<Guid>("BookId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookId"), 1L, 1);
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("BasePrice")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Genre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBN")
                         .IsRequired()
@@ -88,27 +106,36 @@ namespace BookStoreData.Migrations
 
                     b.HasKey("BookId");
 
-                    b.HasIndex("AuthorId")
-                        .IsUnique();
-
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("BookStoreDomain.Book", b =>
+            modelBuilder.Entity("BookStoreDomain.AuthorBook", b =>
                 {
                     b.HasOne("BookStoreDomain.Author", "Author")
-                        .WithOne("Books")
-                        .HasForeignKey("BookStoreDomain.Book", "AuthorId")
+                        .WithMany("Book_Authors")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookStoreDomain.Book", "Book")
+                        .WithMany("Book_Authors")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Author");
+
+                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("BookStoreDomain.Author", b =>
                 {
-                    b.Navigation("Books")
-                        .IsRequired();
+                    b.Navigation("Book_Authors");
+                });
+
+            modelBuilder.Entity("BookStoreDomain.Book", b =>
+                {
+                    b.Navigation("Book_Authors");
                 });
 #pragma warning restore 612, 618
         }

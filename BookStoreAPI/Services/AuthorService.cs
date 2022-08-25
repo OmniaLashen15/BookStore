@@ -3,12 +3,12 @@ using BookStoreData;
 using BookStoreDomain;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookStoreAPI.Repository
+namespace BookStoreAPI
 {
-    public class AuthorRepository : IRepository<Author>
+    public class AuthorService : IAuthorRepository
     {
         private readonly BookStoreContext _context;
-        public AuthorRepository(BookStoreContext context)
+        public AuthorService(BookStoreContext context)
         {
             _context = context;
         }
@@ -16,21 +16,26 @@ namespace BookStoreAPI.Repository
 
         public async Task<List<Author>> GetAll()
         {
-            var authersList = await _context.Authors.Include(b=>b.Book).ToListAsync();
+            var authersList = await _context.Authors.Include(b => b.Book_Authors).ToListAsync();
             return authersList;
 
         }
-
-        public async Task<Author> GetById(int id)
+        public async Task<Author> GetAuthorByEmail(string email)
         {
-            var author = await _context.Authors.Include(b=>b.Book).FirstOrDefaultAsync(a=>a.AuthorId==id);
+            var author = await _context.Authors.SingleOrDefaultAsync(a=>a.Email == email);
+            return author;
+        }
+
+        public async Task<Author> GetById(Guid id)
+        {
+            var author = await _context.Authors.Include(b => b.Book_Authors).FirstOrDefaultAsync(a => a.AuthorId == id);
             return author;
         }
 
         public async Task<Author> Insert(Author author)
         {
             _context.Authors.Add(author);
-            await _context.SaveChangesAsync();  
+            await _context.SaveChangesAsync();
             return author;
         }
 
@@ -41,27 +46,27 @@ namespace BookStoreAPI.Repository
             return author;
         }
 
-        public async Task<Author> Delete(int id)
+        public async Task<Author> Delete(Guid id)
         {
             var author = await _context.Authors.FindAsync(id);
-            if(author == null)
+            if (author == null)
             {
                 return null;
             }
             _context.Authors.Remove(author);
             _context.SaveChanges();
             return author;
-            
+
         }
 
-        public async Task<Author> Search(string word)
+        public async Task<List<Author>> SearchByName(string word)
         {
-            var author = await _context.Authors.Where(a => (a.FirstName + " " + a.LastName).ToLower().Contains(word)).FirstOrDefaultAsync();
+            var author = await _context.Authors.Where(a => (a.FirstName + " " + a.LastName).ToLower().Contains(word)).ToListAsync();
             return author;
-            
+
         }
 
-        private static Author AuthorFromDTO(AuthorDTO authorDTO)
+        public static Author AuthorFromDTO(AuthorDTO authorDTO)
         {
             return new Author
             {
@@ -75,7 +80,7 @@ namespace BookStoreAPI.Repository
         }
 
 
-        private static AuthorDTO AuthorToDTO(Author author)
+        public static AuthorDTO AuthorToDTO(Author author)
         {
             return new AuthorDTO
             {
@@ -87,7 +92,6 @@ namespace BookStoreAPI.Repository
                 AboutTheAuthor = author.AboutTheAuthor
             };
         }
-
 
     }
 }

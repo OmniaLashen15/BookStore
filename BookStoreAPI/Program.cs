@@ -1,5 +1,6 @@
+using BookStoreAPI;
 using BookStoreAPI.Extensions;
-using BookStoreAPI.Repository;
+using BookStoreAPI.Services;
 using BookStoreData;
 using BookStoreDomain;
 using Microsoft.AspNetCore.Diagnostics;
@@ -20,8 +21,9 @@ builder.Services.AddDbContext<BookStoreContext>(
     opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("BookStoreConnection"))
     .EnableSensitiveDataLogging()
     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
-builder.Services.AddScoped<IRepository<Author>, AuthorRepository>();
-builder.Services.AddScoped<IRepository<Book>, BookRepository>();
+builder.Services.AddScoped<IAuthorRepository, AuthorService>();
+builder.Services.AddScoped<IBookRepository, BookService>();
+builder.Services.AddScoped<IRepository<AuthorBook>,AuthorBookService>();
 
 
 
@@ -39,5 +41,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 ///app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.MapControllers();
-app.ConfigureExceptionHandler();
+//app.ConfigureExceptionHandler();
 app.Run();
