@@ -18,7 +18,8 @@ namespace BookStoreAPI.DTOs
         public string Title { get; set; }
         public DateTime PublishDate { get; set; }
         public decimal BasePrice { get; set; }
-        public string Keywords { get; set; }
+        public string Keywords { get; set; } 
+
         [JsonConverter(typeof(StringEnumConverter))]
         public BookGenre Genre { get; set; }
     }
