@@ -74,7 +74,8 @@ namespace BookStoreAPI.Services
                 Title = bookDTO.Title,
                 PublishDate = bookDTO.PublishDate,
                 BasePrice = bookDTO.BasePrice,
-                Keywords = bookDTO.Keywords
+                Keywords = bookDTO.Keywords,
+                Genre = bookDTO.Genre
             };
         }
 
@@ -88,7 +89,8 @@ namespace BookStoreAPI.Services
                 Title=book.Title,
                 PublishDate=book.PublishDate,
                 BasePrice=book.BasePrice,
-                Keywords = book.Keywords
+                Keywords = book.Keywords,
+                Genre=book.Genre
 
             };
         }
